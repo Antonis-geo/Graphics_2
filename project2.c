@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <GL/glut.h>
+void makeCube(void);
 
 
 
@@ -53,4 +54,34 @@ void main(int argc, char** argv)
      myinit(); /* set attributes */
 
 	 glutMainLoop();
+}
+
+
+void makeCube(void){
+	float right[] = {0,1,0,0,-1,0,0,0,0,0,1,0,0,0,0,1};
+	float left[] = {0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1};
+	float down[] = {1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1};
+	float up[] = {1,0,0,0,0,0,1,0,0,-1,0,0,0,0,0,1};
+	float move[] = {1,0,0,2,0,1,0,2,0,0,1,2,0,0,0,1};
+
+
+	glNewList(1,GL_COMPILE);
+	glLoadIdentity();
+	glLoadMatrixf(right);
+	//glutDisplayFunc
+	glLoadIdentity();
+	glLoadMatrixf(left);
+	//glutDisplayFunc
+	glLoadIdentity();
+	glLoadMatrixf(down);
+	//glutDisplayFunc
+	glLoadIdentity();
+	glLoadMatrixf(up);
+	//glutDisplayFunc
+	glLoadMatrixf(move);
+	//glutDisplayFunc
+	glLoadIdentity();
+	glEndList();
+	
+
 }
