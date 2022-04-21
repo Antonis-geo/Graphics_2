@@ -1,59 +1,55 @@
-
-#include <stdlib.h>
-#include <stdio.h>
+#include <stdlib.h> 
 #include <GL/glut.h>
-void makeCube(void);
+#include <stdio.h>
+#include <math.h>
 
+const int square = 1;
 
+void init() {
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glViewport(0, 0, 500, 500);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45, (GLdouble)500 / (GLdouble)500, 1, 10);
+	glMatrixMode(GL_MODELVIEW);
+	glNewList(square, GL_COMPILE);
+		glBegin(GL_POLYGON);
+			glColor3f(1, 0, 0);
+			glVertex3f(-1, 1, 0);
+			glVertex3f(-1, -1, 0);
+			glVertex3f(1, -1, 0);
+			glVertex3f(1, 1, 0);
+		glEnd();
+	glEndList();
 
-void myinit(void)
-{
- 
-/* attributes */
-glEnable(GL_BLEND);
- 	  glClearColor(1.0, 1.0, 1.0, 0.0); /* white background */
-	   glColor3f(1.0, 0.0, 0.0); /* draw in red */
-
-	/* set up viewing */
-	/* 500 x 500 window with origin lower left */
-
-	   glMatrixMode(GL_PROJECTION);
-	   glLoadIdentity();
-	   gluOrtho2D(0.0, 500.0, 0.0, 500.0);
-	   glMatrixMode(GL_MODELVIEW);
 }
 
-void display( void )
-{
+void display() {
+	glClear(GL_COLOR_BUFFER_BIT);
+	glLoadIdentity();
+	glTranslatef(0.0, 0.0, -5.0);
+	glOrtho(-5, 5, -5, 5, 0, 5);
+	// glColor3f(1, 1, 1);
 
-/* define a point data type */
+	glCallList(square);
+	glutSwapBuffers();
+	glFlush();
+	
+}
 
-    typedef GLfloat point2[2];     
+int main(int argc, char** argv) {
+	
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_RGB);
+	glutInitWindowPosition(0,0);
+	glutInitWindowSize(500, 500);
 
-    point2 vertices[3]={{0.0,0.0},{250.0,500.0},{500.0,0.0}}; /* A triangle */
+	glutCreateWindow("Square");
+	init();
+	glutDisplayFunc(display);
 
-
-
-    glClear(GL_COLOR_BUFFER_BIT);  /*clear the window */
-
-     glFlush(); /* clear buffers */
- }
-
-void main(int argc, char** argv)
-{
-
-/* Standard GLUT initialization */
-
-	    glutInit(&argc,argv);
-	    glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB); /* default, not needed */
-	    glutInitWindowSize(500,500); /* 500 x 500 pixel window */
-	    glutInitWindowPosition(0,0); /* place window top left on display */
-	    glutCreateWindow("Magic Cube"); /* window title */
-	   glutDisplayFunc(display); /* display callback invoked when window opened */
-
-     myinit(); /* set attributes */
-
-	 glutMainLoop();
+	glutMainLoop();
+	return 0;
 }
 
 
